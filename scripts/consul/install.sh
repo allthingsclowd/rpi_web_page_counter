@@ -45,7 +45,7 @@ create_consul_agent_configuration_file () {
     primary_datacenter = "allthingscloud1"
     data_dir = "/opt/consul"
     encrypt = "PzEnZw0DHr9YH5QoF38yzA=="
-    retry_join = ["192.168.1.205","192.168.1.200","192.168.1.206"]
+    retry_join = [$consul_cluster_servers]
     performance {
         raft_multiplier = 1
     }
