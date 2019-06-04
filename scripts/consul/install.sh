@@ -51,6 +51,8 @@ create_consul_agent_configuration_file () {
     }
 EOF
 
+    sudo chown consul:consul /etc/consul.d/consul.hcl
+
 }
 
 create_consul_server_configuration_file () {
@@ -61,6 +63,7 @@ create_consul_server_configuration_file () {
     ui = true
 EOF
 
+    sudo chown consul:consul /etc/consul.d/server.hcl
 }
 
 verify_consul_version () {
