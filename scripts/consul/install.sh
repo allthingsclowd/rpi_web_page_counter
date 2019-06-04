@@ -39,9 +39,12 @@ create_service_user () {
 create_consul_agent_configuration_file () {
 
     [ -f /etc/consul.d/consul.hcl ] &>/dev/null || {
-
+        [ -d /etc/consul.d ] &>/dev/null || {
+            sudo mkdir --parents /etc/consul.d
+        }
         sudo touch /etc/consul.d/consul.hcl
         sudo chmod 640 /etc/consul.d/consul.hcl
+        sudo chown --recursive consul:consul /etc/consul.d
 
     }
 
@@ -62,9 +65,12 @@ EOF
 create_consul_server_configuration_file () {
 
     [ -f /etc/consul.d/server.hcl ] &>/dev/null || {
-
+        [ -d /etc/consul.d ] &>/dev/null || {
+            sudo mkdir --parents /etc/consul.d
+        }
         sudo touch /etc/consul.d/server.hcl
         sudo chmod 640 /etc/consul.d/server.hcl
+        sudo chown --recursive consul:consul /etc/consul.d
 
     }
 
