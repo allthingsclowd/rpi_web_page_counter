@@ -33,7 +33,8 @@ create_service_user () {
     sudo mkdir --parents /opt/${1} /usr/local/${1} /etc/${1}.d
     sudo chown --recursive ${1}:${1} /opt/${1} /etc/${1}.d /usr/local/${1}
     sudo touch /etc/${1}.d/server.hcl /etc/${1}.d/consul.hcl
-    sudo chmod 640 /etc/${1}.d/consul.hcl /etc/${1}.d/server.hcl
+    sudo chmod 640 /etc/${1}.d/server.hcl
+    sudo chmod 640 /etc/${1}.d/consul.hcl
   fi
 
 }
@@ -41,7 +42,7 @@ create_service_user () {
 create_consul_agent_configuration_file () {
 
   sudo tee /etc/consul.d/consul.hcl <<EOF
-    primary_datacenter = allthingscloud1"
+    primary_datacenter = "allthingscloud1"
     data_dir = "/opt/consul"
     encrypt = "PzEnZw0DHr9YH5QoF38yzA=="
     retry_join = ["192.168.1.200","192.168.1.205","192.168.1.206"]
