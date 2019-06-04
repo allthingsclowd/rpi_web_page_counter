@@ -45,7 +45,7 @@ create_consul_agent_configuration_file () {
     primary_datacenter = "allthingscloud1"
     data_dir = "/opt/consul"
     encrypt = "PzEnZw0DHr9YH5QoF38yzA=="
-    retry_join = ["192.168.1.205"]
+    retry_join = ["192.168.1.205","192.168.1.200","192.168.1.206"]
     performance {
         raft_multiplier = 1
     }
@@ -59,7 +59,7 @@ create_consul_server_configuration_file () {
 
   sudo tee /etc/consul.d/server.hcl <<EOF
     server = true
-    bootstrap_expect = 1
+    bootstrap_expect = 3
     ui = true
 EOF
 
