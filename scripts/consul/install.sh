@@ -31,8 +31,8 @@ create_service_user () {
     echo "Creating ${1} user to run the consul service"
     sudo useradd --system --home /etc/${1}.d --shell /bin/false ${1}
     sudo mkdir --parents /opt/${1} /usr/local/${1} /etc/${1}.d
-    sudo chown --recursive ${1}:${1} /opt/${1} /etc/${1}.d /usr/local/${1}
     sudo touch /etc/${1}.d/server.hcl /etc/${1}.d/consul.hcl
+    sudo chown --recursive ${1}:${1} /opt/${1} /etc/${1}.d /usr/local/${1}
     sudo chmod 640 /etc/${1}.d/server.hcl
     sudo chmod 640 /etc/${1}.d/consul.hcl
   fi
