@@ -13,7 +13,7 @@ ConditionFileNotEmpty=/etc/consul.d/consul.hcl
 [Service]
 User=consul
 Group=consul
-ExecStart=/usr/local/bin/consul agent -config-dir=/etc/consul.d/
+ExecStart=/usr/local/bin/consul agent -config-dir=/etc/consul.d/ -bind '{{ GetAllInterfaces | include "name" "^eth" | include "flags" "forwardable|up" | attr "address" }}'
 ExecReload=/usr/local/bin/consul reload
 KillMode=process
 Restart=on-failure
