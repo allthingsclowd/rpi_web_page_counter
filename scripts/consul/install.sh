@@ -104,7 +104,7 @@ install_consul_binary () {
     [ -f consul_${consul_version}_${architecture}.zip ] || {
         sudo wget -q https://releases.hashicorp.com/consul/${consul_version}/consul_${consul_version}_${architecture}.zip
     }
-    sudo unzip consul_${consul_version}_${architecture}.zip
+    sudo unzip -o consul_${consul_version}_${architecture}.zip
     sudo chmod +x consul
     sudo rm consul_${consul_version}_${architecture}.zip
     popd
@@ -116,7 +116,7 @@ install_consul_binary () {
     [ -f consul-template_${consul_template_version}_${architecture}.zip ] || {
         sudo wget -q https://releases.hashicorp.com/consul-template/${consul_template_version}/consul-template_${consul_template_version}_${architecture}.zip
     }
-    sudo unzip consul-template_${consul_template_version}_${architecture}.zip
+    sudo unzip -o consul-template_${consul_template_version}_${architecture}.zip
     sudo chmod +x consul-template
     sudo rm consul-template_${consul_template_version}_${architecture}.zip
     popd
@@ -128,7 +128,7 @@ install_consul_binary () {
     [ -f envconsul_${env_consul_version}_${architecture}.zip ] || {
         sudo wget -q https://releases.hashicorp.com/envconsul/${env_consul_version}/envconsul_${env_consul_version}_${architecture}.zip
     }
-    sudo unzip envconsul_${env_consul_version}_${architecture}.zip
+    sudo unzip -o envconsul_${env_consul_version}_${architecture}.zip
     sudo chmod +x envconsul
     sudo rm envconsul_${env_consul_version}_${architecture}.zip
     popd
