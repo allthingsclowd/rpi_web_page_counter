@@ -1,0 +1,15 @@
+.vagrant
+*.log
+main
+.DS_Store
+.azure
+.terraform
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+/packer_cache/
+/output-*/*
+*.box
+*.iso
+*.tfstate
+*.tfstate*
+VaultServiceIDFactory
