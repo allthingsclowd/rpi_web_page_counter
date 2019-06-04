@@ -104,7 +104,7 @@ install_consul_binary () {
 setup_environment () {
   set -x
   
-  source ${DEPLOYMENTDIR}var.env
+  source ../../var.env
   
   IFACE=`route -n | awk '$1 == "192.168.1.0" {print $8;exit}'`
   [ -z ${IFACE}] && IFACE=`route -n | awk '$1 == "192.168.86.0" {print $8;exit}'`
