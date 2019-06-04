@@ -97,7 +97,43 @@ verify_consul_version () {
 }
 
 install_consul_binary () {
-    echo 'consul missing or incorrect version'
+
+    echo 'consul missing or incorrect version - installing Consul version '${consul_version}' now...'
+    # install consul binary
+    pushd /usr/local/bin
+    [ -f consul_${consul_version}_${architecture}.zip ] || {
+        sudo wget -q https://releases.hashicorp.com/consul/${consul_version}/consul_${consul_version}_${architecture}.zip
+    }
+    sudo unzip consul_${consul_version}_${architecture}.zip
+    sudo chmod +x consul
+    sudo rm consul_${consul_version}_${architecture}.zip
+    popd
+
+
+    # install consul-template binary
+    echo 'installing Consul-Template version '${consul_template_version}' now...'
+    pushd /usr/local/bin
+    [ -f consul-template_${consul_template_version}_${architecture}.zip ] || {
+        sudo wget -q https://releases.hashicorp.com/consul-template/${consul_template_version}/consul-template_${consul_template_version}_${architecture}.zip
+    }
+    sudo unzip consul-template_${consul_template_version}_${architecture}.zip
+    sudo chmod +x consul-template
+    sudo rm consul-template_${consul_template_version}_${architecture}.zip
+    popd
+
+
+    # check envconsul binary
+    echo 'installing envconsul version '${env_consul_version}' now...'
+    pushd /usr/local/bin
+    [ -f envconsul_${env_consul_version}_${architecture}.zip ] || {
+        sudo wget -q https://releases.hashicorp.com/envconsul/${env_consul_version}/envconsul_${env_consul_version}_${architecture}.zip
+    }
+    sudo unzip envconsul_${env_consul_version}_${architecture}.zip
+    sudo chmod +x envconsul
+    sudo rm envconsul_${env_consul_version}_${architecture}.zip
+    popd
+
+
 }
 
 
@@ -119,36 +155,36 @@ install_prerequisite_binaries () {
     # check consul binary
     [ -f /usr/local/bin/consul ] &>/dev/null || {
         pushd /usr/local/bin
-        [ -f consul_${consul_version}_linux_arm.zip ] || {
-            sudo wget -q https://releases.hashicorp.com/consul/${consul_version}/consul_${consul_version}_linux_arm.zip
+        [ -f consul_${consul_version}_${architecture}.zip ] || {
+            sudo wget -q https://releases.hashicorp.com/consul/${consul_version}/consul_${consul_version}_${architecture}.zip
         }
-        sudo unzip consul_${consul_version}_linux_arm.zip
+        sudo unzip consul_${consul_version}_${architecture}.zip
         sudo chmod +x consul
-        sudo rm consul_${consul_version}_linux_arm.zip
+        sudo rm consul_${consul_version}_${architecture}.zip
         popd
     }
 
     # check consul-template binary
     [ -f /usr/local/bin/consul-template ] &>/dev/null || {
         pushd /usr/local/bin
-        [ -f consul-template_${consul_template_version}_linux_arm.zip ] || {
-            sudo wget -q https://releases.hashicorp.com/consul-template/${consul_template_version}/consul-template_${consul_template_version}_linux_arm.zip
+        [ -f consul-template_${consul_template_version}_${architecture}.zip ] || {
+            sudo wget -q https://releases.hashicorp.com/consul-template/${consul_template_version}/consul-template_${consul_template_version}_${architecture}.zip
         }
-        sudo unzip consul-template_${consul_template_version}_linux_arm.zip
+        sudo unzip consul-template_${consul_template_version}_${architecture}.zip
         sudo chmod +x consul-template
-        sudo rm consul-template_${consul_template_version}_linux_arm.zip
+        sudo rm consul-template_${consul_template_version}_${architecture}.zip
         popd
     }
 
     # check envconsul binary
     [ -f /usr/local/bin/envconsul ] &>/dev/null || {
         pushd /usr/local/bin
-        [ -f envconsul_${env_consul_version}_linux_arm.zip ] || {
-            sudo wget -q https://releases.hashicorp.com/envconsul/${env_consul_version}/envconsul_${env_consul_version}_linux_arm.zip
+        [ -f envconsul_${env_consul_version}_${architecture}.zip ] || {
+            sudo wget -q https://releases.hashicorp.com/envconsul/${env_consul_version}/envconsul_${env_consul_version}_${architecture}.zip
         }
-        sudo unzip envconsul_${env_consul_version}_linux_arm.zip
+        sudo unzip envconsul_${env_consul_version}_${architecture}.zip
         sudo chmod +x envconsul
-        sudo rm envconsul_${env_consul_version}_linux_arm.zip
+        sudo rm envconsul_${env_consul_version}_${architecture}.zip
         popd
     }
 
@@ -173,12 +209,12 @@ install_terraform () {
     # check terraform binary
     [ -f /usr/local/bin/terraform ] &>/dev/null || {
         pushd /usr/local/bin
-        [ -f terraform_${terraform_version}_linux_arm.zip ] || {
-            sudo wget -q https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_arm.zip
+        [ -f terraform_${terraform_version}_${architecture}.zip ] || {
+            sudo wget -q https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_${architecture}.zip
         }
-        sudo unzip terraform_${terraform_version}_linux_arm.zip
+        sudo unzip terraform_${terraform_version}_${architecture}.zip
         sudo chmod +x terraform
-        sudo rm terraform_${terraform_version}_linux_arm.zip
+        sudo rm terraform_${terraform_version}_${architecture}.zip
         popd
     }
 
