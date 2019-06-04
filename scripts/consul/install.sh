@@ -143,9 +143,9 @@ setup_environment () {
   source ../../var.env
   
   IFACE=`route -n | awk '$1 == "192.168.1.0" {print $8;exit}'`
-  [ -z ${IFACE}] && IFACE=`route -n | awk '$1 == "192.168.86.0" {print $8;exit}'`
+  [ -z ${IFACE} ] && IFACE=`route -n | awk '$1 == "192.168.86.0" {print $8;exit}'`
   CIDR=`ip addr show ${IFACE} | awk '$2 ~ "192.168.1" {print $2}'`
-  [ -z ${CIDR}] && CIDR=`ip addr show ${IFACE} | awk '$2 ~ "192.168.86" {print $2}'`
+  [ -z ${CIDR} ] && CIDR=`ip addr show ${IFACE} | awk '$2 ~ "192.168.86" {print $2}'`
   IP=${CIDR%%/24}
 
 }
