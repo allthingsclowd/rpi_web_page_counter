@@ -31,24 +31,28 @@ create_service_user () {
     echo "Creating ${1} user to run the consul service"
     sudo useradd --system --home /etc/${1}.d --shell /bin/false ${1}
     sudo mkdir --parents /opt/${1} /usr/local/${1} /etc/${1}.d
-    sudo touch /etc/${1}.d/server.hcl /etc/${1}.d/consul.hcl
     sudo chown --recursive ${1}:${1} /opt/${1} /etc/${1}.d /usr/local/${1}
-    sudo chmod 640 /etc/${1}.d/server.hcl
-    sudo chmod 640 /etc/${1}.d/consul.hcl
   fi
 
 }
 
 create_consul_agent_configuration_file () {
 
-  sudo tee /etc/consul.d/consul.hcl <<EOF
-    primary_datacenter = "allthingscloud1"
-    data_dir = "/opt/consul"
-    encrypt = "PzEnZw0DHr9YH5QoF38yzA=="
-    retry_join = [$consul_cluster_servers]
-    performance {
-        raft_multiplier = 1
+    [ -f /etc/consul.d/consul.hcl ] &>/dev/null || {
+
+        sudo touch /etc/consul.d/consul.hcl
+        sudo chmod 640 /etc/consul.d/consul.hcl
+
     }
+
+    sudo tee /etc/consul.d/consul.hcl <<EOF
+        primary_datacenter = "allthingscloud1"
+        data_dir = "/opt/consul"
+        encrypt = "PzEnZw0DHr9YH5QoF38yzA=="
+        retry_join = [$consul_cluster_servers]
+        performance {
+            raft_multiplier = 1
+        }
 EOF
 
     sudo chown consul:consul /etc/consul.d/consul.hcl
@@ -56,6 +60,13 @@ EOF
 }
 
 create_consul_server_configuration_file () {
+
+    [ -f /etc/consul.d/server.hcl ] &>/dev/null || {
+
+        sudo touch /etc/consul.d/server.hcl
+        sudo chmod 640 /etc/consul.d/server.hcl
+
+    }
 
   sudo tee /etc/consul.d/server.hcl <<EOF
     server = true
