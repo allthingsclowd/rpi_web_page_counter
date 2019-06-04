@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
 create_service () {
-  if [ ! -f /etc/systemd/system/${1}.service ]; then
-    
-
     
     sudo tee /etc/systemd/system/${1}.service <<EOF
 [Unit]
@@ -25,10 +22,6 @@ LimitNOFILE=65536
 [Install]
 WantedBy=multi-user.target
 EOF
-
-  sudo systemctl daemon-reload
-
-  fi
 
 }
 
@@ -69,7 +62,6 @@ EOF
 
 }
 
-
 verify_consul_version () {
     # check consul is installed and it's the correct version - if not then install it
     consul version 2>&1 | grep "${consul_version}" || install_consul_binary
@@ -89,7 +81,6 @@ install_consul_binary () {
     sudo rm consul_${consul_version}_${architecture}.zip
     popd
 
-
     # install consul-template binary
     echo 'installing Consul-Template version '${consul_template_version}' now...'
     pushd /usr/local/bin
@@ -100,7 +91,6 @@ install_consul_binary () {
     sudo chmod +x consul-template
     sudo rm consul-template_${consul_template_version}_${architecture}.zip
     popd
-
 
     # check envconsul binary
     echo 'installing envconsul version '${env_consul_version}' now...'
@@ -113,9 +103,7 @@ install_consul_binary () {
     sudo rm envconsul_${env_consul_version}_${architecture}.zip
     popd
 
-
 }
-
 
 setup_environment () {
   set -x
@@ -124,9 +112,11 @@ setup_environment () {
   
 }
 
-
-
-
+start_consul () {
+    sudo systemctl enable consul
+    sudo systemctl start consul
+    sudo systemctl status consul
+}
 
 setup_environment
 verify_consul_version
@@ -134,4 +124,5 @@ create_service_user consul
 create_service consul
 create_consul_agent_configuration_file
 create_consul_server_configuration_file
+start_consul
 exit 0
