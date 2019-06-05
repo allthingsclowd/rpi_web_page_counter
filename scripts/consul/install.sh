@@ -1,5 +1,32 @@
 #!/usr/bin/env bash
 
+process_commandline_inputs() {
+    while test $# -gt 0; do
+        case "$1" in
+                -h|--help)
+                        echo "Consul Installer"
+                        echo " "
+                        echo "install.sh [options]"
+                        echo " "
+                        echo "options:"
+                        echo "-h, --help         show brief help"
+                        echo "-s, --server       specify to install consul agent in server mode"
+                        echo "-c, --client       specify to install consul agent in client mode"
+                        exit 0
+                        ;;
+                -s|--server)
+                        export SERVERMODE=true
+                        ;;
+                -c|--client)
+                        export SERVERMODE=false
+                        ;;
+                *)
+                        break
+                        ;;
+        esac
+    done
+}
+
 create_service () {
     
     sudo tee /etc/systemd/system/${1}.service <<EOF
@@ -139,11 +166,12 @@ start_consul () {
     sudo systemctl status consul
 }
 
+process_commandline_inputs
 setup_environment
 verify_consul_version
 create_service_user consul
 create_service consul
 create_consul_agent_configuration_file
-create_consul_server_configuration_file
+if [ "${SERVERMODE}" = true ]; then create_consul_server_configuration_file; fi
 start_consul
 exit 0
