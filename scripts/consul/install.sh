@@ -12,6 +12,33 @@ display_command_line_help () {
     exit 0
 }
 
+process_commandline_inputs() {
+
+    if test ${1} -eq 0; then
+        display_command_line_help
+    fi
+
+    case "${2}" in
+            -h|--help)
+                    display_command_line_help
+                    ;;
+            -s|--server)
+                    export SERVERMODE=true
+                    echo "Consul Installer Running in Server Mode"
+                    break
+                    ;;
+            -c|--client)
+                    export SERVERMODE=false
+                    echo "Consul Installer Running in Client Mode"
+                    break
+                    ;;
+            *)
+                    display_command_line_help
+                    ;;
+    esac
+
+}
+
 create_service () {
     
     sudo tee /etc/systemd/system/${1}.service <<EOF
@@ -151,29 +178,7 @@ start_consul () {
     sudo systemctl status consul
 }
 
-if test $# -eq 0; then
-    display_command_line_help
-fi
-
-while test $# -gt 0; do
-    case "$1" in
-            -h|--help)
-                    display_command_line_help
-                    ;;
-            -s|--server)
-                    export SERVERMODE=true
-                    break
-                    ;;
-            -c|--client)
-                    export SERVERMODE=false
-                    break
-                    ;;
-            *)
-                    display_command_line_help
-                    ;;
-    esac
-done
-
+process_commandline_inputs $# $@
 setup_environment
 verify_consul_version
 create_service_user consul
