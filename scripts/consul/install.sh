@@ -176,7 +176,7 @@ start_consul () {
     sudo systemctl status consul
 }
 
-process_commandline_inputs
+process_commandline_inputs $#
 setup_environment
 verify_consul_version
 create_service_user consul
