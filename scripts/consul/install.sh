@@ -21,7 +21,15 @@ process_commandline_inputs() {
                         export SERVERMODE=false
                         ;;
                 *)
-                        break
+                        echo "Consul Installer"
+                        echo " "
+                        echo "install.sh [options]"
+                        echo " "
+                        echo "options:"
+                        echo "-h, --help         show brief help"
+                        echo "-s, --server       specify to install consul agent in server mode"
+                        echo "-c, --client       specify to install consul agent in client mode"
+                        exit 0
                         ;;
         esac
     done
