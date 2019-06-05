@@ -1,35 +1,37 @@
 #!/usr/bin/env bash
 
+display_command_line_help () {
+    echo "Consul Installer"
+    echo " "
+    echo "install.sh [options]"
+    echo " "
+    echo "options:"
+    echo "-h, --help         show brief help"
+    echo "-s, --server       specify to install consul agent in server mode"
+    echo "-c, --client       specify to install consul agent in client mode"
+    exit 0
+}
+
 process_commandline_inputs() {
+    if test $# -eq 0; then
+        display_command_line_help
+    fi
+
     while test $# -gt 0; do
         case "$1" in
                 -h|--help)
-                        echo "Consul Installer"
-                        echo " "
-                        echo "install.sh [options]"
-                        echo " "
-                        echo "options:"
-                        echo "-h, --help         show brief help"
-                        echo "-s, --server       specify to install consul agent in server mode"
-                        echo "-c, --client       specify to install consul agent in client mode"
-                        exit 0
+                        display_command_line_help
                         ;;
                 -s|--server)
                         export SERVERMODE=true
+                        break
                         ;;
                 -c|--client)
                         export SERVERMODE=false
+                        break
                         ;;
                 *)
-                        echo "Consul Installer"
-                        echo " "
-                        echo "install.sh [options]"
-                        echo " "
-                        echo "options:"
-                        echo "-h, --help         show brief help"
-                        echo "-s, --server       specify to install consul agent in server mode"
-                        echo "-c, --client       specify to install consul agent in client mode"
-                        exit 0
+                        display_command_line_help
                         ;;
         esac
     done
