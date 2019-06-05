@@ -13,6 +13,10 @@ display_command_line_help () {
 }
 
 process_commandline_inputs() {
+    echo inputs
+    echo '$#' $#
+    echo '$@' $@
+    echo '$?' $?
     if test $# -eq 0; then
         display_command_line_help
     fi
@@ -176,6 +180,10 @@ start_consul () {
     sudo systemctl status consul
 }
 
+echo start
+echo '$#' $#
+echo '$@' $@
+echo '$?' $?
 process_commandline_inputs $#
 setup_environment
 verify_consul_version
