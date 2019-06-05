@@ -12,35 +12,6 @@ display_command_line_help () {
     exit 0
 }
 
-process_commandline_inputs() {
-    echo inputs
-    echo '$#' $#
-    echo '$@' $@
-    echo '$?' $?
-    if test $# -eq 0; then
-        display_command_line_help
-    fi
-
-    while test $# -gt 0; do
-        case "$1" in
-                -h|--help)
-                        display_command_line_help
-                        ;;
-                -s|--server)
-                        export SERVERMODE=true
-                        break
-                        ;;
-                -c|--client)
-                        export SERVERMODE=false
-                        break
-                        ;;
-                *)
-                        display_command_line_help
-                        ;;
-        esac
-    done
-}
-
 create_service () {
     
     sudo tee /etc/systemd/system/${1}.service <<EOF
@@ -180,11 +151,29 @@ start_consul () {
     sudo systemctl status consul
 }
 
-echo start
-echo '$#' $#
-echo '$@' $@
-echo '$?' $?
-process_commandline_inputs $#
+if test $# -eq 0; then
+    display_command_line_help
+fi
+
+while test $# -gt 0; do
+    case "$1" in
+            -h|--help)
+                    display_command_line_help
+                    ;;
+            -s|--server)
+                    export SERVERMODE=true
+                    break
+                    ;;
+            -c|--client)
+                    export SERVERMODE=false
+                    break
+                    ;;
+            *)
+                    display_command_line_help
+                    ;;
+    esac
+done
+
 setup_environment
 verify_consul_version
 create_service_user consul
